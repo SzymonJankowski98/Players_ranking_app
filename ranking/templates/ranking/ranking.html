@@ -1,0 +1,627 @@
+{% extends 'index.html' %}
+
+{% block ranking %}
+{% load static %} {% load widget_tweaks %} {% load custim_tags %}
+
+<div class="container-fluid settings">
+    <form method="post">
+    {% csrf_token %}
+        <div class="row">
+            <div class="d-flex flex-row mb-3">
+                <div class="search-form">
+                    <select name="league" aria-describedby="basic-addon1" class="form-control" id="pick_league">
+                        <option value="">Wybierz ligę</option>
+                        {% for league in leagues %}
+                            <option value="{{ league.id }}">{{ league.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="search-form">
+                    <select name="nationality" aria-describedby="basic-addon1" class="form-control" id="pick_nationality">
+                        <option value="">Wybierz kraj</option>
+                        {% for nationality in nationalities %}
+                            <option value="{{ nationality.id }}">{{ nationality.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="search-form">
+                    <select name="position" aria-describedby="basic-addon1" class="form-control" id="id_position">
+                        <option value="">Wybierz pozycję</option>
+                      <option value="ST">N</option>
+                      <option value="LW">LS</option>
+                      <option value="RW">PS</option>
+                      <option value="LM">LP</option>
+                      <option value="RM">PP</option>
+                      <option value="CAM">ŚPO</option>
+                      <option value="CM">ŚP</option>
+                      <option value="CDM">ŚPD</option>
+                      <option value="LB">LO</option>
+                      <option value="RB">PO</option>
+                      <option value="CB">ŚO</option>
+                      <option value="GK">BR</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <input name="search-bar" type="search" class="form-control search" placeholder="Szukaj" id="search-bar">
+            </div>
+        </div>
+        <div class="row">
+            <button type="submit" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" name="search">
+                Wyszukaj
+            </button>
+        </div>
+    </form>
+    </div>
+    <div class="container-fluid add">
+        <div class="row">
+            <div class="col button-group">
+            <button type="submit" class="add-button add-player-button" data-toggle="button" aria-pressed="false" autocomplete="off">
+                Dodaj piłkarza
+            </button>
+            <button type="submit" class="add-button add-league-button" data-toggle="button" aria-pressed="false" autocomplete="off">
+                Dodaj ligę
+            </button>
+            <button type="submit" class="add-button add-nationality-button" data-toggle="button" aria-pressed="false" autocomplete="off">
+                Dodaj narodowość
+            </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="add-player-form" class="container-fluid forms hide-form">
+        <form method="post">
+            <div class="row">
+                <div class="col">
+                    <h4>Ogólne:</h4>
+                        {% csrf_token %}
+                        {% for field in add_player_form %}
+                            <div class="input-group mb-1">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1"> {{  field.label  }}</span>
+                                </div>
+                                {{ field|add_class:"form-control"|attr:"aria-describedby:basic-addon1" }}
+                                {% if field.label == 'Wzrost' %}
+                                    <div class="input-group-append">
+                                       <span class="input-group-text"> cm </span>
+                                   </div>
+                                {% endif %}
+                                {% if field.help_text %}
+                                    {{ field.help_text }}
+                                {% endif %}
+
+                                {% for error in field.errors %}
+                                {{ error }}
+                                {% endfor %}
+                            </div>
+                            {% if field.label == 'Czerwone kartki' %}
+                                </div>
+                            <div class="col">
+                                <h4>Szczegółowe:</h4>
+                            {% endif %}
+                        {% endfor %}
+                </div>
+            </div>
+            <div class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary" name="add-player">Dodaj zawodnika</button>
+            </div>
+        </form>
+    </div>
+
+    <div id="add-league-form" class="container-fluid forms hide-form">
+         <form method="post">
+            <div class="row">
+                <div class="col col-md-6">
+                        {% csrf_token %}
+                        {% for field in add_league_form %}
+                            <div class="input-group mb-1">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1"> {{  field.label  }}</span>
+                                </div>
+                                {{ field|add_class:"form-control"|attr:"aria-describedby:basic-addon1" }}
+                                {% if field.help_text %}
+                                    {{ field.help_text }}
+                                {% endif %}
+                                {% for error in field.errors %}
+                                {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endfor %}
+                </div>
+            </div>
+            <div class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary" name="add-league">Dodaj ligę</button>
+            </div>
+        </form>
+    </div>
+    <div id="add-nationality-form" class="container-fluid forms hide-form">
+         <form method="post">
+            <div class="row">
+                <div class="col col-md-6">
+                        {% csrf_token %}
+                        {% for field in add_league_form %}
+                            <div class="input-group mb-1">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1"> {{  field.label  }}</span>
+                                </div>
+                                {{ field|add_class:"form-control"|attr:"aria-describedby:basic-addon1" }}
+                                {% if field.help_text %}
+                                    {{ field.help_text }}
+                                {% endif %}
+                                {% for error in field.errors %}
+                                {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endfor %}
+                </div>
+            </div>
+            <div class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary" name="add-nationality">Dodaj narodowość</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="container-fluid">
+        {% for player in players %}
+            {% if forloop.counter0|divisibleby:3 %}
+                <div class="row justify-content-center cards_row">
+            {% endif %}
+                <div class="col-sm-4 card_container">
+                    <div class="card">
+                        <div class="additional edit-off-additional">
+                            <div class="player-card">
+                                <div class="level center">
+                                    nr {{ forloop.counter}}
+                                </div>
+                                <div class="points center">
+                                     {{ player.rating }}
+                                </div>
+                                <img src="{% static 'images/profile_image.png' %}" width="110" height="110" class="center">
+                            </div>
+                            <div class="more-info">
+                                <h1>{{ player.first_name }} {{ player.last_name }}</h1>
+                                <div class="info">
+                                    <div class="tab tab-active">
+                                        {% if player.position == 'ST' or  player.position == 'RW' or  player.position == 'LW' or  player.position == 'LM' or  player.position == 'RM' or  player.position == 'CAM' or  player.position == 'CM' or  player.position == 'CDM'%}
+                                            <div class="coords">
+                                                <span>Bramki:</span>
+                                                <span>{{ player.goals}}</span>
+                                            </div>
+                                            <div class="coords">
+                                                <span>Asysty:</span>
+                                                <span>{{ player.assists }}</span>
+                                            </div>
+                                            <div class="coords">
+                                                <span>Ilość spotkań:</span>
+                                                <span>{{ player.matches_played }}</span>
+                                            </div>
+                                            <div class="coords">
+                                                <span>Rozegrane minuty na mecz:</span>
+                                                <span>{{ player.minutes_per_game }}</span>
+                                            </div>
+                                            <div class="coords">
+                                                <span>Żółte kartki:</span>
+                                                <span>{{ player.yellow_cards }}</span>
+                                            </div>
+                                            <div class="coords">
+                                                <span>Czerwone kartki:</span>
+                                                <span>{{ player.red_cards }}</span>
+                                            </div>
+                                            <div class="coords">
+                                                <span>Wykreowane okazje:</span>
+                                                <span>{{player.big_chances_created}}</span>
+                                            </div>
+                                        {% endif %}
+
+                                        {% if player.position == 'LB' or  player.position == 'RB' or  player.position == 'CB'%}
+                                            <div class="coords">
+                                                <span>Bramki:</span>
+                                                <span>{{ player.goals}}</span>
+                                            </div>
+                                            <div class="coords">
+                                                <span>Asysty:</span>
+                                                <span>{{ player.assists }}</span>
+                                            </div>
+                                            <div class="coords">
+                                                <span>Ilość spotkań:</span>
+                                                <span>{{ player.matches_played }}</span>
+                                            </div>
+                                            <div class="coords">
+                                                <span>Rozegrane minuty na mecz:</span>
+                                                <span>{{ player.minutes_per_game }}</span>
+                                            </div>
+                                            <div class="coords">
+                                                <span>Żółte kartki:</span>
+                                                <span>{{ player.yellow_cards }}</span>
+                                            </div>
+                                            <div class="coords">
+                                                <span>Czerwone kartki:</span>
+                                                <span>{{ player.red_cards }}</span>
+                                            </div>
+                                            <div class="coords">
+                                                <span>Czyste konta:</span>
+                                                <span>{{player.clean_sheets}}</span>
+                                            </div>
+                                        {% endif %}
+
+                                        {% if player.position == 'GK'%}
+                                            <div class="coords">
+                                                <span>Stracone bramki na mecz:</span>
+                                                <span>{{ player.goals_conceded_per_game}}</span>
+                                            </div>
+                                            <div class="coords">
+                                                <span>Asysty:</span>
+                                                <span>{{ player.assists }}</span>
+                                            </div>
+                                            <div class="coords">
+                                                <span>Ilość spotkań:</span>
+                                                <span>{{ player.matches_played }}</span>
+                                            </div>
+                                            <div class="coords">
+                                                <span>Rozegrane minuty na mecz:</span>
+                                                <span>{{ player.minutes_per_game }}</span>
+                                            </div>
+                                            <div class="coords">
+                                                <span>Żółte kartki:</span>
+                                                <span>{{ player.yellow_cards }}</span>
+                                            </div>
+                                            <div class="coords">
+                                                <span>Czerwone kartki:</span>
+                                                <span>{{ player.red_cards }}</span>
+                                            </div>
+                                            <div class="coords">
+                                                <span>Czyste konta:</span>
+                                                <span>{{player.clean_sheets}}</span>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="tab">
+                                            {% if player.position == 'ST' %}
+                                                <div class="coords">
+                                                    <span>Bramki na mecz:</span>
+                                                    <span>{{ player.goals_per_game}}</span>
+                                                </div>
+                                                <div class="coords">
+                                                    <span>Strzały oddane na mecz:</span>
+                                                    <span>{{ player.shots_per_game }}</span>
+                                                </div>
+                                                <div class="coords">
+                                                    <span>Niewykorzystane okazje:</span>
+                                                    <span>{{ player.big_chances_missed }}</span>
+                                                </div>
+                                                <div class="coords">
+                                                    <span>Udane dryblingi na mecz:</span>
+                                                    <span>{{player.successful_dribbles}}</span>
+                                                </div>
+                                                <div class="coords">
+                                                    <span>Wygrane pojedynki:</span>
+                                                    <span>{{ player.duels_won }}</span>
+                                                </div>
+                                                <div class="coords">
+                                                    <span>Sfaulowany na mecz:</span>
+                                                    <span>{{ player.fouled_per_game }}</span>
+                                                </div>
+                                                <div class="coords">
+                                                    <span>Spalone na mecz:</span>
+                                                    <span>{{ player.offsides_per_game }}</span>
+                                                </div>
+                                        {% endif %}
+
+                                        {% if player.position == 'RW' or  player.position == 'LW' %}
+                                                <div class="coords">
+                                                    <span>Bramki na mecz:</span>
+                                                    <span>{{ player.goals_per_game}}</span>
+                                                </div>
+                                                <div class="coords">
+                                                    <span>Strzały oddane na mecz:</span>
+                                                    <span>{{ player.shots_per_game }}</span>
+                                                </div>
+                                                <div class="coords">
+                                                    <span>Niewykorzystane okazje:</span>
+                                                    <span>{{ player.big_chances_missed }}</span>
+                                                </div>
+                                                <div class="coords">
+                                                    <span>Celne podania na mecz:</span>
+                                                    <span>{{ player.accurate_passes_per_game }}</span>
+                                                </div>
+                                                <div class="coords">
+                                                    <span>Udane dryblingi na mecz:</span>
+                                                    <span>{{player.successful_dribbles}}</span>
+                                                </div>
+                                                <div class="coords">
+                                                    <span>Wygrane pojedynki:</span>
+                                                    <span>{{ player.duels_won }}</span>
+                                                </div>
+                                                <div class="coords">
+                                                    <span>Sfaulowany na mecz:</span>
+                                                    <span>{{ player.fouled_per_game }}</span>
+                                                </div>
+                                        {% endif %}
+
+                                        {% if player.position == 'LM' or  player.position == 'RM' %}
+                                                <div class="coords">
+                                                    <span>Dotknięcia piłki na mecz:</span>
+                                                    <span>{{ player.touches_per_game}}</span>
+                                                </div>
+                                                <div class="coords">
+                                                    <span>Podania na polu przeciwnika/mecz:</span>
+                                                    <span>{{ player.accurate_passes_oposhalf_per_game }}</span>
+                                                </div>
+                                                <div class="coords">
+                                                    <span>Celne dośrodkowania na mecz:</span>
+                                                    <span>{{ player.accurate_crosses_per_game }}</span>
+                                                </div>
+                                                <div class="coords">
+                                                    <span>Wygrane pojedynki:</span>
+                                                    <span>{{ player.duels_won }}</span>
+                                                </div>
+                                                <div class="coords">
+                                                    <span>Przechwyty na mecz:</span>
+                                                    <span>{{ player.interceptions_per_game }}</span>
+                                                </div>
+                                                <div class="coords">
+                                                    <span>Odbiory na mecz:</span>
+                                                    <span>{{player.tackles_per_game}}</span>
+                                                </div>
+                                                <div class="coords">
+                                                    <span>Straty piłki na mecz:</span>
+                                                    <span>{{ player.possession_lost_per_game }}</span>
+                                                </div>
+                                        {% endif %}
+
+                                        {% if player.position == 'CAM' %}
+                                                <div class="coords">
+                                                    <span>Bramki na mecz:</span>
+                                                    <span>{{ player.goals_per_game}}</span>
+                                                </div>
+                                                <div class="coords">
+                                                    <span>Dotknięcia piłki na mecz:</span>
+                                                    <span>{{ player.touches_per_game}}</span>
+                                                </div>
+                                                <div class="coords">
+                                                    <span>Podania na polu przeciwnika/mecz:</span>
+                                                    <span>{{ player.accurate_passes_oposhalf_per_game }}</span>
+                                                </div>
+                                                <div class="coords">
+                                                    <span>Kluczowe podania na mecz:</span>
+                                                    <span>{{ player.key_passes_per_game }}</span>
+                                                </div>
+                                                <div class="coords">
+                                                    <span>Udane dryblingi na mecz:</span>
+                                                    <span>{{player.successful_dribbles}}</span>
+                                                </div>
+                                                <div class="coords">
+                                                    <span>Wygrane pojedynki:</span>
+                                                    <span>{{ player.duels_won }}</span>
+                                                </div>
+                                                <div class="coords">
+                                                    <span>Straty piłki na mecz:</span>
+                                                    <span>{{ player.possession_lost_per_game }}</span>
+                                                </div>
+                                        {% endif %}
+
+                                        {% if player.position == 'CM' %}
+                                                <div class="coords">
+                                                    <span>Dotknięcia piłki na mecz:</span>
+                                                    <span>{{ player.touches_per_game}}</span>
+                                                </div>
+                                                <div class="coords">
+                                                    <span>Celne podania na mecz:</span>
+                                                    <span>{{ player.accurate_passes_per_game }}</span>
+                                                </div>
+                                                <div class="coords">
+                                                    <span>Podania na polu przeciwnika/mecz:</span>
+                                                    <span>{{ player.accurate_passes_oposhalf_per_game }}</span>
+                                                </div>
+                                                <div class="coords">
+                                                    <span>Przechwyty na mecz:</span>
+                                                    <span>{{ player.interceptions_per_game }}</span>
+                                                </div>
+                                                <div class="coords">
+                                                    <span>Odbiory na mecz:</span>
+                                                    <span>{{player.tackles_per_game}}</span>
+                                                </div>
+                                                <div class="coords">
+                                                    <span>Wygrane pojedynki:</span>
+                                                    <span>{{ player.duels_won }}</span>
+                                                </div>
+                                                <div class="coords">
+                                                    <span>Straty piłki na mecz:</span>
+                                                    <span>{{ player.possession_lost_per_game }}</span>
+                                                </div>
+                                        {% endif %}
+
+                                        {% if player.position == 'CDM' %}
+                                                <div class="coords">
+                                                    <span>Dotknięcia piłki na mecz:</span>
+                                                    <span>{{ player.touches_per_game}}</span>
+                                                </div>
+                                                <div class="coords">
+                                                    <span>Celne podania na mecz:</span>
+                                                    <span>{{ player.accurate_passes_per_game }}</span>
+                                                </div>
+                                                <div class="coords">
+                                                    <span>Przechwyty na mecz:</span>
+                                                    <span>{{ player.interceptions_per_game }}</span>
+                                                </div>
+                                                <div class="coords">
+                                                    <span>Odbiory na mecz:</span>
+                                                    <span>{{player.tackles_per_game}}</span>
+                                                </div>
+                                                <div class="coords">
+                                                    <span>Przedryblowany na mecz:</span>
+                                                    <span>{{ player.dribbled_per_game }}</span>
+                                                </div>
+                                                <div class="coords">
+                                                    <span>Wybicia na mecz:</span>
+                                                    <span>{{ player.clearances_per_game }}</span>
+                                                </div>
+                                                <div class="coords">
+                                                    <span>Wygrane pojedynki:</span>
+                                                    <span>{{ player.duels_won }}</span>
+                                                </div>
+                                        {% endif %}
+
+                                        {% if player.position == 'LB' or  player.position == 'RB' %}
+                                                <div class="coords">
+                                                    <span>Dotknięcia piłki na mecz:</span>
+                                                    <span>{{ player.touches_per_game}}</span>
+                                                </div>
+                                                <div class="coords">
+                                                    <span>Wykreowane okazje:</span>
+                                                    <span>{{player.big_chances_created}}</span>
+                                                </div>
+                                                <div class="coords">
+                                                    <span>Celne podania na mecz:</span>
+                                                    <span>{{ player.accurate_passes_per_game }}</span>
+                                                </div>
+                                                <div class="coords">
+                                                    <span>Celne dośrodkowania na mecz:</span>
+                                                    <span>{{ player.accurate_crosses_per_game }}</span>
+                                                </div>
+                                                <div class="coords">
+                                                    <span>Odbiory na mecz:</span>
+                                                    <span>{{player.tackles_per_game}}</span>
+                                                </div>
+                                                <div class="coords">
+                                                    <span>Wybicia na mecz:</span>
+                                                    <span>{{ player.clearances_per_game }}</span>
+                                                </div>
+                                                <div class="coords">
+                                                    <span>Wygrane pojedynki:</span>
+                                                    <span>{{ player.duels_won }}</span>
+                                                </div>
+                                        {% endif %}
+
+                                        {% if player.position == 'CB'%}
+                                                <div class="coords">
+                                                    <span>Przechwyty na mecz:</span>
+                                                    <span>{{ player.interceptions_per_game }}</span>
+                                                </div>
+                                                <div class="coords">
+                                                    <span>Odbiory na mecz:</span>
+                                                    <span>{{player.tackles_per_game}}</span>
+                                                </div>
+                                                <div class="coords">
+                                                    <span>Przedryblowany na mecz:</span>
+                                                    <span>{{ player.dribbled_per_game }}</span>
+                                                </div>
+                                                <div class="coords">
+                                                    <span>Wybicia na mecz:</span>
+                                                    <span>{{ player.clearances_per_game }}</span>
+                                                </div>
+                                                <div class="coords">
+                                                    <span>Błędy prowadzące do oddania strzału:</span>
+                                                    <span>{{ player.error_leading_to_shot }}</span>
+                                                </div>
+                                                <div class="coords">
+                                                    <span>Sprokurowane karne:</span>
+                                                    <span>{{ player.penalty_committed}}</span>
+                                                </div>
+                                                <div class="coords">
+                                                    <span>Wygrane pojedynki:</span>
+                                                    <span>{{ player.duels_won }}</span>
+                                                </div>
+                                        {% endif %}
+
+                                        {% if player.position == 'GK' %}
+                                                <div class="coords">
+                                                    <span>Obron na mecz:</span>
+                                                    <span>{{ player.saves_per_game}}</span>
+                                                </div>
+                                                <div class="coords">
+                                                    <span>Procent udanych obron:</span>
+                                                    <span>{{ player.successful_saves_percent }}</span>
+                                                </div>
+                                                <div class="coords">
+                                                    <span>Błędy prowadzące do utraty bramki:</span>
+                                                    <span>{{ player.error_leading_to_goal }}</span>
+                                                </div>
+                                                <div class="coords">
+                                                    <span>Obronione karne:</span>
+                                                    <span>{{ player.penalties_saved }}</span>
+                                                </div>
+                                                <div class="coords">
+                                                    <span>Wybicia na mecz:</span>
+                                                    <span>{{ player.clearances_per_game }}</span>
+                                                </div>
+                                                <div class="coords">
+                                                    <span>Dotknięcia piłki na mecz:</span>
+                                                    <span>{{ player.touches_per_game}}</span>
+                                                </div>
+                                                <div class="coords">
+                                                    <span>Celne podania na mecz:</span>
+                                                    <span>{{ player.accurate_passes_per_game }}</span>
+                                                </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="edit-info hide-info">
+                                    <div class="tab edit-info-first-tab hide-info">
+                                    <form method="post" id="edit-player-{{ player.id }}">
+                                    {% csrf_token %}
+                                        {% for field in add_player_form %}
+                                            <div class="input-group mb-1 edit-input-group">
+                                                <div class="coords">
+                                                    <span>{{  field.label  }} </span>
+                                                    <span class="hidden-value" style="display: none;">{% get_value_by_name player field.name %}</span>
+                                                    <span>{{ field|add_class:"form-control edit-form"|attr:"aria-describedby:basic-addon1" }}</span>
+                                                {% if field.help_text %}
+                                                    {{ field.help_text }}
+                                                {% endif %}
+
+                                                {% for error in field.errors %}
+                                                {{ error }}
+                                                {% endfor %}
+                                                </div>
+                                            </div>
+                                            {% if field.label == 'Pozycja' %}
+                                                </div>
+                                                <div class="tab tab-active edit-info-tab">
+                                            {% endif %}
+
+                                            {% if forloop.counter == 16 %}
+                                                </div>
+                                                <div class="tab edit-info-tab hide-info">
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                </form>
+                                </div>
+                                <div class="options">
+                                    <div>
+                                        <button class="arrow-left disabled"><i class="fas fa-angle-left"></i></button>
+                                        <button class="arrow-right"><i class="fas fa-angle-right"></i></button>
+                                    </div>
+                                    <div>
+                                        <form method="post" class="delete-form">
+                                            {% csrf_token %}
+                                            <button class="delete hide-button" type="submit" value="delete_player_{{ player.id}}" name="delete_player"><i class="fas fa-minus-square"></i></button>
+                                        </form>
+                                        <button form="edit-player-{{ player.id }}" class="confirm hide-button" type="submit" value="edit_player_{{ player.id}}" name="edit_player"><i class="fas fa-check-square"></i></button>
+                                        <button class="edit"><i class="fas fa-pen-square"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="general">
+                            <h1 class="name">{{ player.first_name }} {{ player.last_name }}</h1>
+                            <div class="coords"><span>Wiek:</span> <span>{{ player.age }}</span><br></div>
+                            <div class="coords"><span>Wzrost:</span> <span>{{ player.height }}</span><br></div>
+                            <div class="coords"><span>Narodowość:</span> <span>{{ player.nationality.name }}</span><br></div>
+                            <div class="coords"><span>Liga:</span> <span>{{ player.league.name }}</span><br></div>
+                            <div class="coords"><span>Klub:</span> <span>{{ player.club }}</span><br></div>
+                            <div class="coords"><span>Pozycja:</span> <span>{{ player.get_position_display }}</span><br></div>
+                            <div class="coords"><span>Noga:</span> <span>{{ player.get_preferred_foot_display }}</span><br></div>
+                        </div>
+                    </div>
+                </div>
+            {% if forloop.counter|divisibleby:3 %}
+            </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endblock %}

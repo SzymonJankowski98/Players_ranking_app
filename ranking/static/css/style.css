@@ -1,0 +1,145 @@
+body {
+    background: #1C1F2B;
+}
+
+nav.navbar.navbar-dark {
+    background: #1C1F2B;
+}
+
+main .settings {
+    padding-top: 15px;
+    background: #9cabbf;
+}
+
+main .settings .row{
+    padding: 0 2% 0 2%;
+    justify-content: center;
+}
+
+main .settings .row:first-child {
+    padding: 15px 2% 0 2%;
+}
+
+main .settings .row:last-child {
+    padding: 0 2% 15px 2%;
+}
+
+main .settings .row .btn-group .btn-secondary{
+    background: #473180;
+}
+
+main .settings .row .btn-group {
+    padding: 1px;
+}
+
+.navbar-brand {
+    display: -webkit-flex;
+    display: flex;
+    align-items: center;
+}
+
+.navbar-brand span {
+    padding-left: 5px;
+    font-size: 30px;
+    font-family: 'Cabin', sans-serif;
+}
+
+.search {
+    width: 500px;
+}
+
+.search-form {
+    padding: 1px;
+}
+
+.search-form select:focus,
+.search-form:active {
+    background: #473180;
+    color: white;
+}
+
+.search-form select,
+.search-form select option{
+    border: 0;
+    outline: 0;
+    background: #473180;
+    color: white;
+}
+
+.search:focus,
+#add-player-form .form-control:focus,
+#add-league-form .form-control:focus,
+#add-nationality-form .form-control:focus {
+    outline: none;
+    border-color: #473180;
+    box-shadow: 0 0 5px #473180;
+}
+
+.forms {
+    padding: 0;
+    margin: 0;
+}
+
+.add {
+    background: black;
+}
+
+.add .row .button-group {
+    padding: 10px;
+    display: flex;
+    justify-items: left;
+}
+
+.add .row .button-group .add-button {
+    color: white;
+    border: 0;
+    margin: 2px;
+    background: #473180;
+    border-radius: 2px;
+    padding: 5px 10px;
+}
+
+.forms .row {
+    margin: 0;
+}
+
+#add-player-form,
+#add-league-form,
+#add-nationality-form {
+    background: #9cabbf;
+}
+
+#add-player-form .form-group,
+#add-league-form .form-group,
+#add-nationality-form .form-group {
+    padding: 8px;
+    background: #9cabbf;
+}
+
+.hide-form {
+    display: none;
+}
+
+#add-player-form .input-group-text,
+#add-league-form .input-group-text,
+#add-nationality-form .input-group-text{
+    background: #473180;
+    color: white;
+    border: 1px solid #473180;
+}
+
+#add-player-form h4 {
+    padding: 8px;
+}
+
+#add-player-form .btn,
+#add-league-form .btn,
+#add-nationality-form .btn {
+    position: relative;
+    margin: 5px 15px 15px 5px;
+}
+
+#add-league-form .input-group,
+#add-nationality-form .input-group {
+    margin-top: 10px;
+}

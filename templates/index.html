@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="utf-8">
+    <title>Ranking</title>
+    <meta name="author" content="">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% load static %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+    <link href="https://fonts.googleapis.com/css?family=Cabin&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/player_card.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/all.css' %}">
+</head>
+
+<body>
+<header class="main-header">
+    <nav class="navbar navbar-dark">
+        <a class="navbar-brand" href="#">
+            <img src="{% static 'images/trophy.png' %}" width="60" height="60" class="d-inline-block align-top" alt="">
+            <span>Ranking Piłkarzy</span>
+        </a>
+    </nav>
+</header>
+<main>
+    {% block ranking %}
+    {% endblock %}
+</main>
+</body>
+<script src="{% static 'scripts/scripts.js' %}"></script>
+<script src="{% static 'scripts/player_card.js' %}"></script>
+<script src="{% static 'scripts/forms.js' %}"></script>
+<script src="{% static 'scripts/card.js' %}"></script>
+</html>

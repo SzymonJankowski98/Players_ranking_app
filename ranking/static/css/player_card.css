@@ -1,0 +1,242 @@
+@import url('https://fonts.googleapis.com/css?family=Abel');
+
+.card_container {
+  display: flex;
+  justify-content: center;
+}
+
+.center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+}
+
+.card {
+  width: 450px;
+  height: 250px;
+  background-color: #fff;
+  background: #141516;
+  box-shadow: 0 8px 16px -8px rgba(0,0,0,0.4);
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+  margin: 1.5rem;
+  font-family: Abel, Arial, Verdana, sans-serif;
+}
+
+.card h1 {
+  text-align: center;
+}
+
+.card .additional {
+  position: absolute;
+  height: 100%;
+  background: #9CABBF;
+  transition: width 0.4s;
+  overflow: hidden;
+  z-index: 2;
+}
+
+.card:hover .additional {
+  width: 100%;
+  border-radius: 0 5px 5px 0;
+}
+
+.edit-off-additional {
+  width: 150px;
+}
+
+.edit-additional {
+  width: 100%;
+}
+
+
+.card .additional .player-card {
+  width: 150px;
+  height: 100%;
+  position: relative;
+  float: left;
+}
+
+.card .additional .player-card::after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 10%;
+  right: -2px;
+  height: 80%;
+  border-left: 2px solid rgba(0,0,0,0.025);
+}
+
+.card .additional .player-card .level,
+.card .additional .player-card .points {
+  top: 15%;
+  color: #fff;
+  text-transform: uppercase;
+  font-size: 1em;
+  font-weight: bold;
+  background: #473180;
+  padding: 0.125rem 0.75rem;
+  border-radius: 100px;
+  white-space: nowrap;
+}
+
+.card .additional .player-card .points {
+  top: 85%;
+}
+
+.card .additional .more-info {
+  width: 300px;
+  float: left;
+  position: absolute;
+  left: 150px;
+  height: 100%;
+}
+
+.card .additional .more-info h1 {
+  font-size: 2.1rem;
+  color: black;
+  margin-bottom: 0;
+}
+.card .additional .more-info .tab {
+  position: absolute;
+  width: 300px;
+  opacity: 0;
+}
+
+.card .additional .more-info .tab-right {
+  transform: translateY(-100%);
+}
+
+.card .additional .more-info .tab-active {
+  opacity: 1;
+}
+
+.edit-info-first-tab {
+  display: inline;
+  height: 100%;
+  padding: 0;
+  font-size: 0.1rem;
+  line-height: 1.3;
+}
+
+.edit-info-tab {
+  line-height: 1.3;
+  margin-top: 2px;
+}
+
+.edit-input-group {
+  display: block;
+}
+
+.edit-form
+{
+  display: inline;
+  height: 100%;
+  padding: 0;
+  font-size: 0.8rem;
+}
+
+.hide-info {
+  display: none;
+}
+
+.card .additional .coords {
+  margin: 0 1rem;
+  color: black;
+  font-size: 1rem;
+}
+
+.card .additional .coords span + span {
+  float: right;
+}
+
+.card .additional .edit-info-first-tab {
+  padding-top: 4px;
+}
+
+.card .additional .edit-info-first-tab .coords{
+  font-size: 0.95rem;
+}
+
+.card .additional .options {
+  font-size: 1.5rem;
+  display: flex;
+  position: absolute;
+  bottom: 0.2rem;
+  left: 0.8rem;
+  right: 0.8rem;
+  top: auto;
+  color: #473180;
+  justify-content: space-between;
+}
+.card .additional .options .arrow-left {
+  opacity: 0.5;
+}
+
+.card .additional .options .arrow-left,
+.card .additional .options .arrow-right,
+.card .additional .options .edit,
+.card .additional .options .delete,
+.card .additional .options .confirm{
+  padding: 3px;
+  background: transparent;
+  border: none;
+  color: #473180;
+}
+
+.card .additional .options .arrow-left:focus,
+.card .additional .options .arrow-right:focus,
+.card .additional .options .edit:focus,
+.card .additional .options .delete:focus,
+.card .additional .options .confirm:focus{
+  outline: none;
+}
+
+.card .additional .options .delete-form {
+  transform: translateX(-100%);
+  padding-right: 5px;
+}
+
+.card .additional .options .delete-form {
+  position: absolute;
+}
+
+.card .additional .options .confirm {
+  color: forestgreen;
+}
+.card .additional .options .delete {
+  color: firebrick;
+}
+
+.hide-button {
+  display: none;
+}
+
+.disabled{
+  pointer-events: none;
+}
+
+.card .general {
+  width: 300px;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 1;
+  box-sizing: border-box;
+  padding: 1rem;
+  padding-top: 0;
+}
+
+.card .general .coords span + span {
+  float: right;
+}
+
+.card .general {
+  color: white;
+}
+.card .general .name{
+  font-size: 2.1em;
+}
